@@ -1,4 +1,4 @@
-clear,clc;
+clear;
 addpath('Data');
 addpath('Utilities');
 addpath('SPAMS');

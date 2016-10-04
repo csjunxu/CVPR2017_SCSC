@@ -30,7 +30,7 @@ for j = 3:par.Patch_Channel
         % paired coefficient and mapping
         Alphac = GMM_Dc'*XC_t;
         Alphan = GMM_Dn'*XN_t;
-        [Alphac, Alphan, Uc, Un, Pn, f] = SCSC_DAP(Alphac, Alphan, XC_t, XN_t, GMM_Dc, GMM_Dn, par);
+        [Alphac, Alphan, Uc, Un, Pn, f] = SCSC_DAP_Learning(Alphac, Alphan, XC_t, XN_t, GMM_Dc, GMM_Dn, par);
         SCSC.UC{j,i} = Uc;
         SCSC.UN{j,i} = Un;
         SCSC.PN{j,i} = Pn;

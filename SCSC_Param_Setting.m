@@ -1,0 +1,32 @@
+patch_size = 8;
+Patch_Channel = 3;
+num_patch_N = 200000;
+num_patch_C = 5*num_patch_N;
+R_thresh = 0.05;
+cls_num = 64;
+
+% Parameters Setting
+par.nlsp = 5;
+par.step               =    2;
+par.Patch_Channel = Patch_Channel;
+par.patch_size                =    patch_size;
+par.S         =  2 * par.patch_size - 1;
+par.rho = 5e-2;
+par.lambda1         =       0.01;
+par.lambda2         =       0.001;
+par.mu              =       0.01;
+par.sqrtmu          =       sqrt(par.mu);
+par.nu              =       0.1;
+par.nup = 0;
+par.nIter           =       100; 
+par.epsilon         =       5e-3;
+par.R_thresh = R_thresh;
+par.t0              =       5;
+par.K = par.patch_size^2;
+par.L = par.patch_size * par.patch_size;
+par.cls_num = cls_num;
+param.K = par.K;
+param.lambda = par.lambda1;
+param.iter=300;
+param.L = par.patch_size * par.patch_size;
+save Data/params_PG.mat par param;
