@@ -11,7 +11,7 @@ GT_im_dir  = dir(GT_fpath);
 TT_im_dir  = dir(TT_fpath);
 im_num = length(TT_im_dir);
 
-params = 'Data/params_gray_PG.mat';
+params = 'Data/params_PG.mat';
 load(params,'par','param');
 Dict_SR_backup = 'Data/SCSC_PG_3_10_8x8_64_BID_20161003.mat';
 load(Dict_SR_backup,'SCSC');
