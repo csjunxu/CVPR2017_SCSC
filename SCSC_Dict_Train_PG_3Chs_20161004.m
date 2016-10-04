@@ -7,14 +7,14 @@ addpath('Utilities');
 load Data/params_gray_PG.mat;
 task = 'BID';
 
-for j = 1:par.Patch_Channel
+for j = 3:par.Patch_Channel 
     modelname = sprintf('../DSCDL_BID/Data/GMM_PG_%d_10_8x8_64_20161003T094301.mat',j);
     eval(['load ' modelname]);
     D = cell(par.Patch_Channel,par.cls_num);
     W = cell(par.Patch_Channel,par.cls_num);
-    for i = 1 : par.cls_num
-        XN_t = double(Xn{j,i});
-        XC_t = double(Xc{j,i});
+    for i = 60 : par.cls_num
+        XN_t = double(Xn{i});
+        XC_t = double(Xc{i});
         fprintf('SCSC: Channel: %d, Cluster: %d\n', j, i);
         % clean
         [GMM_Dc,GMM_Sc,~] = svd(model.covs(:,:,i));
@@ -35,7 +35,7 @@ for j = 1:par.Patch_Channel
         SCSC.UN{j,i} = Un;
         SCSC.PN{j,i} = Pn;
         SCSC.f{j,i} = f;
-        Dict_BID = sprintf('Data/SCSC_PG_3_10_8x8_64_%s_20161003.mat',task);
-        save(Dict_BID,'SCSC');
+%         Dict_BID = sprintf('Data/SCSC_PG_3_10_8x8_64_%s_20161003.mat',task);
+        save Data/SCSC_PG_3_10_8x8_64_BID_20161003.mat SCSC '-v7.3'
     end
 end
