@@ -12,4 +12,4 @@ for i = 1:par.ps
         im_wei(r-1+i,c-1+j)  =  im_wei(r-1+i,c-1+j) + reshape( W(k,:)', [par.maxr par.maxc]);
     end
 end
-im_out  =  im_out./im_wei;
+im_out  =  im_out./(eps+im_wei);

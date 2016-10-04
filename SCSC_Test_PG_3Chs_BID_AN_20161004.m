@@ -42,6 +42,7 @@ for i = 1:im_num
         IM_GT_cc = IM_GT(:,:,cc);
         fprintf('Channel %d: The initial PSNR = %2.4f, SSIM = %2.4f. \n', cc, csnr( IMin_cc*255,IM_GT_cc*255, 0, 0 ), cal_ssim( IMin_cc*255, IM_GT_cc*255, 0, 0 ));
         % 
+%         IMout_cc = SCSC_PG_3Chs_BID_20161004(IMin_cc,IM_GT_cc,model,SCSC,par,param);
         IMout_cc = SCSC_PG_3Chs_BID(IMin_cc,IM_GT_cc,model,SCSC,par,param);
         IMout(:,:,cc) = IMout_cc;
     end

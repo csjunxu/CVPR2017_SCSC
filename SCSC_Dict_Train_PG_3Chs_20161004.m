@@ -4,15 +4,15 @@ addpath('Data');
 addpath('SPAMS'); 
 addpath('Utilities');
 
-load Data/params_gray_PG.mat;
+load Data/params_PG.mat;
 task = 'BID';
 
-for j = 3:par.Patch_Channel 
+for j = 1:par.Patch_Channel 
     modelname = sprintf('../DSCDL_BID/Data/GMM_PG_%d_10_8x8_64_20161003T094301.mat',j);
     eval(['load ' modelname]);
     D = cell(par.Patch_Channel,par.cls_num);
     W = cell(par.Patch_Channel,par.cls_num);
-    for i = 60 : par.cls_num
+    for i = 1 : par.cls_num
         XN_t = double(Xn{i});
         XC_t = double(Xc{i});
         fprintf('SCSC: Channel: %d, Cluster: %d\n', j, i);

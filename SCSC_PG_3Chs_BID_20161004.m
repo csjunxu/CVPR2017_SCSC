@@ -1,12 +1,11 @@
-function im_out = SCSC_PG_3Chs_BID(IMin,IM_GT,model,scsc,par,param)
-% Initial
-warning off;
+function im_out = SCSC_PG_3Chs_BID_20161004(IMin,IM_GT,model,Dict,par,param)
+%% Initialization
 im_out = IMin;
+fprintf('nInnerLoop: The initial PSNR = %2.4f, SSIM = %2.4f. \n', csnr( IMin*255,IM_GT*255, 0, 0 ), cal_ssim( IMin*255, IM_GT*255, 0, 0 ));
 for t = 1 : par.nInnerLoop
     if t == 1
-%         psf = fspecial('gaussian', par.patch_size+2, 2.2);
-%         [nDCnlYH,~,~,par] = Image2PGs( conv2(im_out, psf, 'same') - im_out, par);
-        [nDCnlYH,~,~,par] = Image2PGs( im_out, par);
+        psf = fspecial('gaussian', par.patch_size+2, 2.2);
+        [nDCnlYH,~,~,par] = Image2PGs( conv2(im_out, psf, 'same') - im_out, par);
         AN = zeros(par.K, size(nDCnlYH, 2));
         AC = zeros(par.K, size(nDCnlYH, 2));
         %% GMM: full posterior calculation
@@ -39,18 +38,19 @@ for t = 1 : par.nInnerLoop
         cls       =   cls_idx(idx(1));
         Xc    = nDCnlXC(:, idx);
         Xn    = nDCnlXN(:, idx);
-        Dc    = scsc.DC{par.cc,cls};
-        Dn    = scsc.DN{par.cc,cls};
-        Uc    = scsc.UC{par.cc,cls};
-        Un    = scsc.UN{par.cc,cls};
+        Dc    = Dict.DC{par.cc,cls};
+        Dn    = Dict.DN{par.cc,cls};
+        Uc    = Dict.UC{cls};
+        Un    = Dict.UN{cls};
         if (t == 1)
             Alphan = mexLasso(Xn, Dn, param);
             Alphac = Uc \ Un * Alphan;
-            Xc = Dc * Alphac; % Xc->Xn; 07/07/2016;  Xn->Xc; 07/22/2016;
+            Xc = Dc * Alphac;
         else
             Alphac = AC(:, idx);
         end
-        D = [Dn; par.sqrtmu * Un]; % Wn ->Un 07/22/2016;
+        %% Transformation
+        D = [Dn; par.sqrtmu * Un];
         Y = [Xn; par.sqrtmu * Uc * full(Alphac)];
         Alphan = mexLasso(Y, D,param);
         clear Y D;
@@ -63,7 +63,7 @@ for t = 1 : par.nInnerLoop
         nDCnlXC(:, idx) = Xc;
         AN(:, idx) = Alphan;
         AC(:, idx) = Alphac;
-        X_hat(:,blk_arrXC(idx)) = X_hat(:,blk_arrXC(idx)) + Xc + DCXC(:,idx);
+        X_hat(:,blk_arrXC(idx)) = X_hat(:,blk_arrXC(idx)) + nDCnlXC(:, idx) + DCXC(:,idx);
         W(:,blk_arrXC(idx))     = bsxfun(@plus,W(:,blk_arrXC(idx)),ones(par.ps^2,1));
     end
     %% PGs to Image
