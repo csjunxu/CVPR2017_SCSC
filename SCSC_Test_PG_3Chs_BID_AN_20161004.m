@@ -42,10 +42,7 @@ for i = 1:im_num
         IM_GT_cc = IM_GT(:,:,cc);
         fprintf('Channel %d: The initial PSNR = %2.4f, SSIM = %2.4f. \n', cc, csnr( IMin_cc*255,IM_GT_cc*255, 0, 0 ), cal_ssim( IMin_cc*255, IM_GT_cc*255, 0, 0 ));
         % 
-        IMout_cc = SCSC_PG_3Chs_BID(IMin_cc,model,SCSC,par,param);
-        % Noise Level Estimation
-        nSig = NoiseLevel(IMout_cc*255);
-        fprintf('The noise level is %2.4f.\n',nSig);
+        IMout_cc = SCSC_PG_3Chs_BID(IMin_cc,IM_GT_cc,model,SCSC,par,param);
         IMout(:,:,cc) = IMout_cc;
     end
     %% output
