@@ -1,6 +1,7 @@
-function [im_out, PN] = SCSC_PG_3Chs_BID(IMin_y,model,scsc,par,param)
+function [im_out, PN] = SCSC_PG_3Chs_BID(IMin,IM_GT,model,scsc,par,param)
 % Initial
-im_out = IMin_y;
+warning off;
+im_out = IMin;
 PN = cell(1,par.cls_num);
 for t = 1 : par.nInnerLoop
     if t == 1
@@ -30,7 +31,7 @@ for t = 1 : par.nInnerLoop
     end
     %%  Image to PGs
     [nDCnlXC,blk_arrXC,DCXC,par] = Image2PGs( im_out, par);
-    [nDCnlXN,~,~,par] = Image2PGs( IMin_y, par);
+    [nDCnlXN,~,~,par] = Image2PGs( IMin, par);
     X_hat = zeros(par.ps^2,par.maxr*par.maxc,'double');
     W = zeros(par.ps^2,par.maxr*par.maxc,'double');
     for   i  = 1:length(seg)-1
@@ -74,5 +75,5 @@ for t = 1 : par.nInnerLoop
     end
     %% PGs to Image
     im_out = PGs2Image(X_hat,W,par);
-    fprintf('nInnerLoop: The final PSNR = %2.4f, SSIM = %2.4f. \n', csnr( im_out*255, IM_GT_y*255, 0, 0 ),cal_ssim( im_out*255, IM_GT_y*255, 0, 0 ));
+    fprintf('nInnerLoop: The final PSNR = %2.4f, SSIM = %2.4f. \n', csnr( im_out*255, IM_GT*255, 0, 0 ),cal_ssim( im_out*255, IM_GT*255, 0, 0 ));
 end
