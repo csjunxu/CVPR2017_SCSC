@@ -4,7 +4,7 @@ im_out = IMin_y;
 PN = cell(1,par.cls_num);
 for t = 1 : par.nInnerLoop
     if t == 1
-        psf = fspecial('gaussian', par.win+2, 2.2);
+        psf = fspecial('gaussian', par.patch_size+2, 2.2);
         [nDCnlYH,~,~,par] = Image2PGs( conv2(im_out, psf, 'same') - im_out, par);
         AN = zeros(par.K, size(nDCnlYH, 2));
         AC = zeros(par.K, size(nDCnlYH, 2));
