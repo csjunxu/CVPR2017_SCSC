@@ -44,11 +44,14 @@ for i = 1:im_num
         % 
 %         IMout_cc = SCSC_PG_3Chs_BID_20161004(IMin_cc,IM_GT_cc,model,SCSC,par,param);
         IMout_cc = SCSC_PG_3Chs_BID(IMin_cc,IM_GT_cc,model,SCSC,par,param);
+            fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', csnr( im_out*255, IM_GT*255, 0, 0 ),cal_ssim( im_out*255, IM_GT*255, 0, 0 ));
+
         IMout(:,:,cc) = IMout_cc;
     end
     %% output
     PSNR = [PSNR csnr( IMout*255, IM_GT*255, 0, 0 )];
     SSIM = [SSIM cal_ssim( IMout*255, IM_GT*255, 0, 0 )];
+    fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', PSNR(end), SSIM(end));
     %% output
     imwrite(IMout, ['../cc_Results/Real_SCSC/SCSC_PG_3Chs_BID_' IMname '.png']);
 end

@@ -68,5 +68,4 @@ for t = 1 : par.nInnerLoop
     end
     %% PGs to Image
     im_out = PGs2Image(X_hat,W,par);
-    fprintf('nInnerLoop: The final PSNR = %2.4f, SSIM = %2.4f. \n', csnr( im_out*255, IM_GT*255, 0, 0 ),cal_ssim( im_out*255, IM_GT*255, 0, 0 ));
 end
